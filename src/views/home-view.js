@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-
-import { Layout, List, Avatar } from 'antd'
-
-
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import { Layout, List, Avatar, Button } from 'antd';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -24,7 +22,7 @@ class HomeView extends Component {
 
     const cakes = await resposne.json();
 
-    this.setState(() => ({
+    this.setState((prevState) => ({
       cakes,
       isLoading: false
     }))
@@ -38,10 +36,13 @@ class HomeView extends Component {
     const { cakes, isLoading } = this.state;
     
     return (
-   
         <Layout>
           <Header>
-            Header
+            <Link to="/addcake">
+              <Button>
+              Add New Cake
+              </Button>
+            </Link>
          </Header>
           <Content>
             <List
@@ -54,7 +55,6 @@ class HomeView extends Component {
                 <List.Item.Meta
                   avatar={<Avatar src={cake.imageUrl} />}
                   title={<div>  {cake.name}</div>}
-
                 />
               </List.Item>)}
             />
