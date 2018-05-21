@@ -3,47 +3,28 @@ import ReactDOM from 'react-dom';
 
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
-import NoView from './../src/views/no-view'
+import NoView from './../src/views/no-view';
+
+import AddView from './views/add-view';
+import DetailView  from "./views/detail-view";
+import HomeView from './views/home-view';
+
 
 import 'antd/dist/antd.css';
 import './index.css';
 
-import App from './App';
+
 import registerServiceWorker from './registerServiceWorker';
 
-
-class DetailView extends Component {
-
-
-    render() {
-
-        return (
-
-            <div>a</div>
-        )
-    }
-}
-
-class AddCakeView extends Component {
-
-
-    render() {
-
-        return (
-
-            <div>a</div>
-        )
-    }
-}
 
 
 ReactDOM.render(
 
     <Router>
         <Switch>
-            <Route exact path="/" component={App} />
+            <Route exact path="/" component={HomeView} />
             <Route path="/detail/:id" component={DetailView} />
-            <Route path="/addcake" component={AddCakeView} />
+            <Route path="/addcake" component={AddView} />
             <Route component={NoView} />
         </Switch>
     </Router>
