@@ -8,9 +8,6 @@ const { Header, Footer, Sider, Content } = Layout;
 
 const { Meta } = Card;
 
-
-const CAKES_END_POINT = `http://ec2-34-243-153-154.eu-west-1.compute.amazonaws.com:5000/api/cakes/`;
-
 class DetailView extends Component {
 
     state = {
@@ -50,8 +47,9 @@ class DetailView extends Component {
                         cover={<img alt="example" src={cake.imageUrl ? cake.imageUrl : "http://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png"} />}
                     >
                         <Meta
-                            title={cake.name}
+                            title={cake.name  + "   |   "  + cake.yumFactor }
                             description={cake.comment}
+
                         />
                     </Card>
                 </Content>

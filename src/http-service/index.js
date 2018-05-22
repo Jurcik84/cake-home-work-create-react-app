@@ -26,7 +26,6 @@ export async function fetchAllCakes() {
     catch (error) {
 
         console.error('fetchAllCake:ERROR')
-
     }
 }
 
@@ -56,6 +55,37 @@ export async function fetchCakeById(cakeId) {
     catch (error) {
 
         console.error("fetchCakeById:ERROR")
+    }
+}
+
+
+export async function createCake(cakeConfig) {
+
+    try {
+
+        const cake_config_ob = JSON.stringify(cakeConfig);
+        const http_method_post = 'POST';
+
+        const response = await fetch(CAKES_END_POINT, {
+            method: http_method_post,
+            body: cake_config_ob,
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+        });
+
+        if (response.status === 201) {
+
+            return response.json();
+        }
+
+        else {
+            return {}
+        }
+    }
+    catch (error) {
+
+        console.error("createNewCake:ERROR")
     }
 }
 
