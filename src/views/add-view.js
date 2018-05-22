@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Layout, List, Avatar, Button, Form, Icon, Input, Select, Mention } from 'antd';
 
 
-import {createCake} from './../http-service'
+import { createCake } from './../http-service'
 
 const { Header, Footer, Sider, Content } = Layout;
 const FormItem = Form.Item;
@@ -18,59 +18,75 @@ class AddView extends Component {
       comment: "",
       yumFactor: "",
       imageUrl: "",
-      id: Math.floor((Math.random() * 1000) + 1)
     },
-    isLoading: true
+    isFormSend: false
   }
 
-  componentDidMount() {
-    // To disabled submit button at the beginning.
+  onCreateCake = (name, event) => {
 
+    if (name === "name" || name === "imageUrl" || name === "comment") {
+      this.setState({
+        ...this.state,
+        cake: {
+          ...this.state.cake,
+          [name]: event.target.value
+        }
+      })
+    }
+
+    // Select > option has no event.target.value it has only value 
+    if (name === "yumFactor") {
+      this.setState({
+        ...this.state,
+        cake: {
+          ...this.state.cake,
+          [name]: parseInt(Number(event))
+        }
+      })
+    }
   }
 
-  onCreateCake = (name, event)=> {
-            
-      if(name === "name" || name === "imageUrl" || name === "comment"){
-          this.setState({
-            ...this.state,
-            cake: {
-              ...this.state.cake,
-              [name] : event.target.value
-            }
-          })
-      }
-
-      // Select > option has no event.target.value it has only value 
-      if(name==="yumFactor") {
-        this.setState({
-          ...this.state,
-          cake: {
-            ...this.state.cake,
-            [name] : parseInt(Number(event))
-          }
-        })
-      }
-  }
-
-  handleSubmit=(e)=>{
+  handleSubmit = (e) => {
 
     e.preventDefault();
-    
-    createCake(this.state.cake)
-    .then((response)=>{
 
-      console.log('response', response)
 
-    })
+    // Add random number as id
+    const addCakeId = Math.floor((Math.random() * 1000) + 1);
+
+    createCake({ ...this.state.cake, addCakeId })
+      .then((response) => {
+
+        if (response) {
+
+          this.setState({
+            cake: {
+              name: "",
+              comment: "",
+              yumFactor: "",
+              imageUrl: "",
+            }
+          }, () => setTimeout(() => this.setState({
+            isFormSend: true
+          }), 2000))
+        }
+
+      })
   }
 
   render() {
 
-    const { isLoading, cake } = this.state;
+    const { isFormSend, cake } = this.state;
+    const {
+      name,
+      comment,
+      yumFactor,
+      imageUrl } = cake;
 
-    console.log(cake)
+    if (isFormSend === true) {
 
-
+      return <Redirect to={"/"} />;
+    }
     return (
       <Layout>
         <Header>
@@ -80,8 +96,9 @@ class AddView extends Component {
               </Button>
           </Link>
         </Header>
+
         <Content style={{ width: 440, margin: "auto" }}>
-          <Form onSubmit={(e)=>this.handleSubmit(e)} className="login-form">
+          <Form onSubmit={(e) => this.handleSubmit(e)} className="login-form">
             <FormItem>
               <Input
                 name="name"
@@ -116,11 +133,19 @@ class AddView extends Component {
                 <Input.TextArea
                   style={{ width: '100%', height: 100 }}
                   onChange={(e) => this.onCreateCake("comment", e)}
+                  placeholder="Drop a comment"
 
                 />
               </FormItem>
-              <Button type="primary" htmlType="submit" className="login-form-button">
-                Log in
+              <Button
+                disabled={
+                  name === "" ||
+                  comment === "" ||
+                  yumFactor === "" ||
+                  imageUrl === ""
+                }
+                type="primary" htmlType="submit" className="login-form-button">
+                Go and make them droll
           </Button>
             </FormItem>
           </Form>

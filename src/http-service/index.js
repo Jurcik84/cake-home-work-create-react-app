@@ -65,7 +65,7 @@ export async function createCake(cakeConfig) {
 
         const cake_config_ob = JSON.stringify(cakeConfig);
         const http_method_post = 'POST';
-
+    
         const response = await fetch(CAKES_END_POINT, {
             method: http_method_post,
             body: cake_config_ob,
@@ -73,19 +73,15 @@ export async function createCake(cakeConfig) {
                 'Content-Type': 'application/json'
             }),
         });
-
-        if (response.status === 201) {
-
-            return response.json();
-        }
-
-        else {
-            return {}
+    
+        if(response.status === 201){
+           
+           return response.json();
         }
     }
-    catch (error) {
+    catch(error){
+        console.error("fetchCakeById:ERROR")
 
-        console.error("createNewCake:ERROR")
     }
 }
 

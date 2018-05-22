@@ -40,7 +40,7 @@ class HomeView extends Component {
               </Button>
             </Link>
          </Header>
-          <Content>
+          <Content style={{width: 660, margin: "auto"}}>
             <List
               loading={isLoading}
               itemLayout={"horizontal"}
