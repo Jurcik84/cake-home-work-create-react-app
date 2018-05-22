@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom'
-import { Layout, List, Avatar, Button, Form, Icon, Input, Select, Mention } from 'antd';
+import { Layout, List, Avatar, Button, Form, Icon, Input, Select } from 'antd';
 
 
-import { createCake } from './../http-service'
+import { createCake } from './../http-service';
 
 const { Header, Footer, Sider, Content } = Layout;
 const FormItem = Form.Item;
 const Option = Select.Option;
-const { toString } = Mention;
+
 
 class AddView extends Component {
 
@@ -50,7 +50,6 @@ class AddView extends Component {
 
     e.preventDefault();
 
-
     // Add random number as id
     const addCakeId = Math.floor((Math.random() * 1000) + 1);
 
@@ -70,7 +69,6 @@ class AddView extends Component {
             isFormSend: true
           }), 2000))
         }
-
       })
   }
 
@@ -96,8 +94,9 @@ class AddView extends Component {
               </Button>
           </Link>
         </Header>
-
         <Content style={{ width: 440, margin: "auto" }}>
+
+        <h1>Create new Cake</h1>
           <Form onSubmit={(e) => this.handleSubmit(e)} className="login-form">
             <FormItem>
               <Input
@@ -151,7 +150,7 @@ class AddView extends Component {
           </Form>
         </Content>
         <Footer>
-          Footer
+          Footer  | * All fields must be filled  | * sending button is disabled untill inputs are empty
          </Footer>
       </Layout>
 
